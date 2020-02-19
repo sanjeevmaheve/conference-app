@@ -27,6 +27,13 @@ public class Session {
     public Session() {
     }
 
+    public Session(Long session_id, String session_name, String session_description, Integer session_length) {
+        this.session_id = session_id;
+        this.session_name = session_name;
+        this.session_description = session_description;
+        this.session_length = session_length;
+    }
+
     public List<Speaker> getSpeakers() {
         return speakers;
     }
