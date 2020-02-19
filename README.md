@@ -1,2 +1,11 @@
 # conference-app
-Conference App for learning Spring Boot
+This is a sample conference application developed using Java Spring Boot framework
+
+
+## Reference(s):
+### Bootstrap Application
+*  https://start.spring.io/
+### Video Course on Pluralsight.com
+* Spring Framework: Creating Your First Spring Boot Application (Pluralsight)
+### Sample Postgres database tables
+* https://github.com/dlbunker/ps-first-spring-boot-app
