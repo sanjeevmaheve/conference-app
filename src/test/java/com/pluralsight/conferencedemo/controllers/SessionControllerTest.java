@@ -1,8 +1,7 @@
 package com.pluralsight.conferencedemo.controllers;
 
-import com.pluralsight.conferencedemo.controllers.SessionController;
 import com.pluralsight.conferencedemo.models.Session;
-import com.pluralsight.conferencedemo.repositories.SessionRepository;
+import com.pluralsight.conferencedemo.services.SessionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,12 +28,12 @@ public class SessionControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    private SessionRepository sessionRepository;
+    private SessionService sessionService;
 
     @Test
     public void listAllSessionsTest() throws Exception {
 
-        when(sessionRepository.findAll()).thenReturn(
+        when(sessionService.retrieveAllSessions()).thenReturn(
                 Arrays.asList(new Session((long) 1, "Name1", "Description1", 45),
                         new Session((long) 2, "Name2", "Description2", 50)
                 )
@@ -54,7 +52,7 @@ public class SessionControllerTest {
     }
 
     public void listOneSessionTest() throws Exception {
-        when(sessionRepository.findAll()).thenReturn(
+        when(sessionService.retrieveAllSessions()).thenReturn(
                 Arrays.asList(new Session((long) 1, "Name1", "Description1", 45))
         );
         RequestBuilder request = MockMvcRequestBuilders

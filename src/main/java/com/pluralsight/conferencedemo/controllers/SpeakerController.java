@@ -2,6 +2,7 @@ package com.pluralsight.conferencedemo.controllers;
 
 import com.pluralsight.conferencedemo.models.Speaker;
 import com.pluralsight.conferencedemo.repositories.SpeakerRepository;
+import com.pluralsight.conferencedemo.services.SpeakerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,35 +15,33 @@ import java.util.List;
 public class SpeakerController {
 
     @Autowired
-    private SpeakerRepository speakerRepository;
+    private SpeakerService speakerService;
     private Object HTTPStatus;
 
     @GetMapping
     public List<Speaker> list() {
-        return speakerRepository.findAll();
+        return speakerService.retrieveAllSpeakers();
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public Speaker get(@PathVariable Long id) {
-        return speakerRepository.getOne(id);
+        return speakerService.retrieveSpecificSpeaker(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Speaker create(@RequestBody Speaker speaker) {
-        return speakerRepository.saveAndFlush(speaker);
+        return speakerService.save(speaker);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
-        speakerRepository.deleteById(id);
+        speakerService.delete(id);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public Speaker update(@PathVariable Long id, @RequestBody Speaker speaker) {
-        Speaker existingSpeaker = speakerRepository.getOne(id);
-        BeanUtils.copyProperties(speaker, existingSpeaker, "speaker_id");
-        return speakerRepository.saveAndFlush(existingSpeaker);
+        return speakerService.save(id, speaker);
     }
 }

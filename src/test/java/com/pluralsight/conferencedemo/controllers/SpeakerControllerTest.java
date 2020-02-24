@@ -1,9 +1,7 @@
 package com.pluralsight.conferencedemo.controllers;
 
-import com.pluralsight.conferencedemo.controllers.SpeakerController;
-import com.pluralsight.conferencedemo.models.Session;
 import com.pluralsight.conferencedemo.models.Speaker;
-import com.pluralsight.conferencedemo.repositories.SpeakerRepository;
+import com.pluralsight.conferencedemo.services.SpeakerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -31,11 +28,11 @@ public class SpeakerControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    private SpeakerRepository speakerRepository;
+    private SpeakerService speakerService;
 
     @Test
     public void listAllSpeakersTest() throws Exception {
-        when(speakerRepository.findAll()).thenReturn(
+        when(speakerService.retrieveAllSpeakers()).thenReturn(
                 Arrays.asList(new Speaker((long) 1, "FirstName1", "LastName1", "title1", "company1", "speaker_bio1"),
                         new Speaker((long) 2, "FirstName2", "LastName2", "title2", "company2", "speaker_bio2")
                 )

@@ -1,8 +1,7 @@
 package com.pluralsight.conferencedemo.controllers;
 
 import com.pluralsight.conferencedemo.models.Session;
-import com.pluralsight.conferencedemo.repositories.SessionRepository;
-import org.springframework.beans.BeanUtils;
+import com.pluralsight.conferencedemo.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +13,32 @@ import java.util.List;
 public class SessionController {
 
     @Autowired
-    private SessionRepository sessionRepository;
+    private SessionService sessionService;
 
     @GetMapping
     public List<Session> list() {
-        return sessionRepository.findAll();
+        return sessionService.retrieveAllSessions();
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public Session get(@PathVariable Long id) {
-        return sessionRepository.getOne(id);
+        return sessionService.retrieveSpecificSession(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Session create(@RequestBody final Session session) {
-        return sessionRepository.saveAndFlush(session);
+        return sessionService.save(session);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
-        sessionRepository.deleteById(id);
+        sessionService.delete(id);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public Session update(@PathVariable Long id, @RequestBody Session session) {
-        // TODO: Add validation that all attributes are input mandatorily. Otherwise return BAD REQUEST (400)
-        Session existingSession = sessionRepository.getOne(id);
-        BeanUtils.copyProperties(session, existingSession, "session_id");
-        return sessionRepository.saveAndFlush(existingSession);
+        return sessionService.save(id, session);
     }
 }
